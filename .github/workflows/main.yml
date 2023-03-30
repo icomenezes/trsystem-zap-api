@@ -1,0 +1,34 @@
+on: 
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'tmp/**'
+      - '**/.vscode'
+      - '**/.git*'
+      - 'app/database/log.db'
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v1
+      - name: Deploy host
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          ARGS: >-
+            -rptgoDOqi 
+            --chown=root:root
+            --exclude='.git'
+            --exclude='.github'
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+      - run: echo $USER_ID
+      # - run: sudo chown -R root:root /home/getdr148/public_html/estoque
+
+            
