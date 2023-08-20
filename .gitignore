@@ -1,5 +1,5 @@
 # NODE
-#node_modules
+node_modules
 package-lock.json
 yarn.lock
 
@@ -11,4 +11,4 @@ sessiondata
 .vscode/settings.json
 .idea
 
-#node_modules.zip
+node_modules.zip
