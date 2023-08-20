@@ -1,24 +1,34 @@
-name: Push-to-EC2
 
-# Trigger deployment only on push to master branch
-on:
+on: 
   push:
     branches:
       - main
-
+    paths-ignore:
+      - '**/.vscode'
+      - '**/.git*'
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
-
-      - name: Deploy to Server 1
+      - name: Checkout do repositorio
+        uses: actions/checkout@v3
+      - name: Deploy host Alemanha API ZAP
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
+          ARGS: >-
+            -rptgoDOqi 
+            --chown=root:root
+            --exclude='.git'
+            --exclude='.github'
+            --exclude='tests/'
+            --exclude='node_modules.zip'
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+      # - run: sudo chown -R root:root /home/getdr148/public_html/estoque
+
+            
